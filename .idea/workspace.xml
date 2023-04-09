@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="classes-imitators">
+    <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="safe commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/CompletedSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Slot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/EmptySlot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +54,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681038003670</updated>
-      <workItem from="1681038021386" duration="11142000" />
+      <workItem from="1681038021386" duration="11926000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -100,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681041909339</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="safe commit">
+      <created>1681055746636</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681055746636</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,20 +128,21 @@
     <MESSAGE value="uploaded timetable file" />
     <MESSAGE value="uploading all string values" />
     <MESSAGE value="classes-imitators" />
-    <option name="LAST_COMMIT_MESSAGE" value="classes-imitators" />
+    <MESSAGE value="safe commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="safe commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="1" />
+          <line>82</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="2" />
+          <line>34</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

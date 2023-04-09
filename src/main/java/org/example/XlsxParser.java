@@ -79,15 +79,22 @@ public class XlsxParser {
         return startIndexMap;
     }
 
-    private static List<CellRangeAddress> processMergedRegions(Sheet sheet) {
+    private static List<List<CellRangeAddress>> processMergedRegions(Sheet sheet) {
         var sortedByRow = sheet.getMergedRegions().stream()
                 .sorted(Comparator.comparing(CellRangeAddress::getFirstRow))
                 .collect(Collectors.toList());
 
         List<List<CellRangeAddress>> sortedByCell = new LinkedList<>();
 
-
-        return null;
+        for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+            int finalI = i;
+            var line = sortedByRow.stream()
+                    .filter(el -> el.getFirstRow()==finalI)
+                    .sorted(Comparator.comparing(CellRangeAddress::getFirstColumn))
+                    .collect(Collectors.toList());
+            sortedByCell.add(line);
+        }
+        return sortedByCell;
     }
 
     private static List<CompletedSlot> getCompletedSlots(Sheet sheet) {
