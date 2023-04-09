@@ -103,6 +103,12 @@ public class XlsxParser {
 
         var mergedRegions = processMergedRegions(sheet);
 
+        var bannedRows = mergedRegions.stream().sorted()
+                .filter(el -> el.size()==1)
+                .collect(Collectors.toList());
+
+
+
 
         return null;
     }
