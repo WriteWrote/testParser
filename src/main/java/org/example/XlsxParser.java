@@ -4,15 +4,16 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.example.model.CompletedSlot;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class XlsxParser {
     public static void main(String[] args) throws IOException {
@@ -24,11 +25,11 @@ public class XlsxParser {
         Workbook workbook = getFromFile(filepath);
 
         //bachelor
-        Map<Integer, List<String>> bachelor = getStringCells(workbook, 0);
-
-
+//        Map<Integer, List<String>> bachelor = getStringCells(workbook, 0);
         //mastery
-        Map<Integer, List<String>> mastery = getStringCells(workbook, 1);
+//        Map<Integer, List<String>> mastery = getStringCells(workbook, 1);
+
+        List<CompletedSlot> bachelor = getCompletedSlots(workbook.getSheetAt(0));
 
 
         System.out.println("Finish hiiiim!");
@@ -38,7 +39,8 @@ public class XlsxParser {
         FileInputStream file = new FileInputStream(new File(filepath));
         return new XSSFWorkbook(file);
     }
-    private static Map<Integer, List<String>> getStringCells(Workbook workbook, Integer pageIndex){
+
+    private static Map<Integer, List<String>> getStringCells(Workbook workbook, Integer pageIndex) {
         // working with current sheet
         Sheet sheet = workbook.getSheetAt(pageIndex);
 
@@ -49,7 +51,7 @@ public class XlsxParser {
             data.put(i, new ArrayList<String>());       // init the list of cells with index
 
             for (Cell cell : row) {
-                System.out.println(cell.getStringCellValue() + " ");
+//                System.out.println(cell.getStringCellValue() + " ");
                 data.get(i).add(cell.getStringCellValue());
             }
 
@@ -58,5 +60,43 @@ public class XlsxParser {
         }
 
         return data;
+    }
+
+    private static Map<String, Integer> countStartIndexRange(Row row) {
+        Map<String, Integer> startIndexMap = new HashMap<>();
+
+        String prevValue = row.getCell(0).getStringCellValue();
+        startIndexMap.put(prevValue, 0);
+
+        for (Cell cell : row) {
+            String currentValue = cell.getStringCellValue();
+
+            if (!prevValue.equals(currentValue) && !currentValue.equals("")) {
+                startIndexMap.put(currentValue, cell.getColumnIndex());
+            }
+        }
+
+        return startIndexMap;
+    }
+
+    private static List<CellRangeAddress> processMergedRegions(Sheet sheet) {
+        var sortedByRow = sheet.getMergedRegions().stream()
+                .sorted(Comparator.comparing(CellRangeAddress::getFirstRow))
+                .collect(Collectors.toList());
+
+        List<List<CellRangeAddress>> sortedByCell = new LinkedList<>();
+
+
+        return null;
+    }
+
+    private static List<CompletedSlot> getCompletedSlots(Sheet sheet) {
+        Map<String, Integer> coursesIndexRange = countStartIndexRange(sheet.getRow(0));
+        Map<String, Integer> groupsIndexRange = countStartIndexRange(sheet.getRow(1));
+
+        var mergedRegions = processMergedRegions(sheet);
+
+
+        return null;
     }
 }

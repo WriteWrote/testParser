@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class Lesson {
+public class CompletedSlot {
 //    private Integer id;
 
     // time
@@ -21,7 +21,7 @@ public class Lesson {
     private Integer group;
     private Integer subgroup;
 
-    public Lesson(Integer timetableId, Integer slotId, String classroom, Integer teacherId, Integer subjectId, Integer course, Integer group, Integer subgroup) {
+    public CompletedSlot(Integer timetableId, Integer slotId, String classroom, Integer teacherId, Integer subjectId, Integer course, Integer group, Integer subgroup) {
         this.timetableId = timetableId;
         this.slotId = slotId;
         this.classroom = classroom;

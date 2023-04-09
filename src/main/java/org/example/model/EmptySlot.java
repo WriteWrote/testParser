@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class Slot {
+public class EmptySlot {
 //    private Integer id;
 
     private boolean isDenominator;
@@ -8,7 +8,7 @@ public class Slot {
     private String endTime;
     private Integer weekDayNumber;
 
-    public Slot(boolean isDenominator, String startTime, String endTime, Integer weekDayNumber) {
+    public EmptySlot(boolean isDenominator, String startTime, String endTime, Integer weekDayNumber) {
         this.isDenominator = isDenominator;
         this.startTime = startTime;
         this.endTime = endTime;
