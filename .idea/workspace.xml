@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="safe commit">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="filtering cells p1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
     </list>
@@ -62,7 +61,7 @@
       <updated>1681038003670</updated>
       <workItem from="1681038021386" duration="14835000" />
       <workItem from="1681127561641" duration="2804000" />
-      <workItem from="1681286403372" duration="4288000" />
+      <workItem from="1681286403372" duration="5066000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -127,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681061322721</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="filtering cells p1">
+      <created>1681292462824</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681292462824</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +158,8 @@
     <MESSAGE value="classes-imitators" />
     <MESSAGE value="sorting merged regions succeeded" />
     <MESSAGE value="safe commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="safe commit" />
+    <MESSAGE value="filtering cells p1" />
+    <option name="LAST_COMMIT_MESSAGE" value="filtering cells p1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

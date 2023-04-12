@@ -127,23 +127,31 @@ public class XlsxParser {
             int count = sheet.getRow(i).getLastCellNum();
             for (int j = 3; j < count; j++) {
                 Cell currentCell = sheet.getRow(i).getCell(j);
-                if (currentCell.getStringCellValue().equals("")){
+                if (currentCell.getStringCellValue().equals("")) {
                     var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
-                    if (addressesInvolved.size()!=0){
-
+                    if (addressesInvolved.size() != 0) {
+                        // todo
                     }
-                }
+                } else
 
                 /* Algorithm:
                  * get cell
                  * check if it's empty -> check if it's in merged region
-                 * if in merged region: check if its first, then take info from it
-                 *                      form a Completed Slot
-                 *                      duplicate it for merged region
-                 * if no merged region: take info, form a Completed Slot
+                 *      if in merged region: check if its first, then take info from it
+                 *                           form a Completed Slot
+                 *                           duplicate it for merged region
+                 *                           if not first, let it go, because first cell already was there before
+                 *      if no merged region:
+                 * if it's not empty: check if it's in merged region, then take info, form a Completed Slot, duplicate
                  *
                  * to form a completed slot need to create empty slot, subject and teacher (in real project will be searching those in db
                  * */
+
+                // check if cell in merged region
+                //              yes: check if it's first
+                //                                yes: duplicate and form Completed Slots
+                                                //no: let it be
+                //              NO: if it's not empty, form completed slot
 
             }
         }
