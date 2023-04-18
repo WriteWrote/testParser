@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.example.model.CompletedSlot;
+import org.example.model.EmptySlot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -117,7 +118,7 @@ public class XlsxParser {
         // row 2 - groups
         // row 3-4 - направления и специальности excluded for now
         Map<String, Integer> coursesIndexRange = countRowIndexRange(sheet.getRow(0));
-        Map<String, Integer> groupsIndexRange = countRowIndexRange(sheet.getRow(1));
+        Map<String, Integer> groupsIndexRange = countRowIndexRange(sheet.getRow(1));  // todo fix bug
         Map<String, Integer> weekdaysIndexRange = countCellIndexRange(sheet, 1);
         Map<String, Integer> timesIndexRange = countCellIndexRange(sheet, 2);
 
@@ -127,12 +128,19 @@ public class XlsxParser {
             int count = sheet.getRow(i).getLastCellNum();
             for (int j = 3; j < count; j++) {
                 Cell currentCell = sheet.getRow(i).getCell(j);
-                if (currentCell.getStringCellValue().equals("")) {
-                    var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
-                    if (addressesInvolved.size() != 0) {
-                        // todo
+                var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
+
+                if (addressesInvolved.size() != 0) {
+                    // todo check if it's first
+                }else {
+                    if (!currentCell.getStringCellValue().equals("")) {
+                        boolean denominator = currentCell.getRowIndex() % 2 == 0;
+                        String startTime = null;
+                        String endTime = null;
+                        Integer weekdayNumber = null;
+                        EmptySlot emptySlot = new EmptySlot(denominator, startTime, endTime, weekdayNumber);
                     }
-                } else
+                }
 
                 /* Algorithm:
                  * get cell
