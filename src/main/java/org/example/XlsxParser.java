@@ -62,11 +62,11 @@ public class XlsxParser {
         return data;
     }
 
-    private static Map<String, Integer[]> countRowIndexRange(Row row) {
+    private static Map<String, Integer[]> countRowIndexRange(Row row, Integer offset) {
         Map<String, Integer[]> indexMap = new HashMap<>();
 
-        String prevValue = row.getCell(0).getStringCellValue();
-        int prevIndex = 0;
+        String prevValue = row.getCell(offset).getStringCellValue();
+        int prevIndex = offset;
 //        startIndexMap.put(prevValue, new Integer[]{0, 0});
 
         for (Cell cell : row) {
@@ -102,9 +102,32 @@ public class XlsxParser {
         return sortedByCell;
     }
 
-    private static Map<String, Integer> countCellIndexRange(Sheet sheet, Integer column) {
-        //todo: finish countCellIndexRange()
-        return null;
+    private static Map<String, List<Integer[]>> countCellIndexRange(Sheet sheet, Integer column, Integer offset) {
+        Map<String, List<Integer[]>> indexMap = new HashMap<>();
+
+        String prevValue = sheet.getRow(offset).getCell(column).getStringCellValue();
+        int prevIndex = offset;
+
+        for (int i = offset+1; i< sheet.getPhysicalNumberOfRows(); i++){
+            String currentValue = sheet.getRow(i).getCell(column).getStringCellValue();
+
+            if (!prevValue.equals(currentValue) && !currentValue.equals("")) {
+                if (indexMap.containsKey(prevValue)){
+                    List<Integer[]> buff = indexMap.get(prevValue);
+                    buff.add(new Integer[]{prevIndex, i-1});
+                    indexMap.put(prevValue, buff);
+                }
+                else{
+                    List<Integer[]> buff = new ArrayList<>();
+                    buff.add(new Integer[]{prevIndex, i-1});
+                    indexMap.put(prevValue, buff);
+                }
+                prevValue = currentValue;
+                prevIndex = i;
+            }
+        }
+
+        return indexMap;
     }
 
     private static List<List<CellRangeAddress>> includedInMergedRegion(Cell slot, List<List<CellRangeAddress>> regions) {
@@ -122,10 +145,10 @@ public class XlsxParser {
         // row 1 - courses
         // row 2 - groups
         // row 3-4 - направления и специальности excluded for now
-        Map<String, Integer[]> coursesIndexRange = countRowIndexRange(sheet.getRow(0));     // все курсы занимают несколько ячеек
-        Map<String, Integer[]> groupsIndexRange = countRowIndexRange(sheet.getRow(1));  // есть группы, занимающие либо 1, либо 2 ячейки
-        Map<String, Integer> weekdaysIndexRange = countCellIndexRange(sheet, 1);
-        Map<String, Integer> timesIndexRange = countCellIndexRange(sheet, 2);
+        Map<String, Integer[]> coursesIndexRange = countRowIndexRange(sheet.getRow(0), 0);     // все курсы занимают несколько ячеек
+        Map<String, Integer[]> groupsIndexRange = countRowIndexRange(sheet.getRow(1), 0);  // есть группы, занимающие либо 1, либо 2 ячейки
+        Map<String, List<Integer[]>> weekdaysIndexRange = countCellIndexRange(sheet, 0, 4);
+        Map<String, List<Integer[]>> timesIndexRange = countCellIndexRange(sheet, 1, 4);
 
         var mergedRegions = processMergedRegions(sheet);
 
