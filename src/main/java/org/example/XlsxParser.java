@@ -62,21 +62,26 @@ public class XlsxParser {
         return data;
     }
 
-    private static Map<String, Integer> countRowIndexRange(Row row) {
-        Map<String, Integer> startIndexMap = new HashMap<>();
+    private static Map<String, Integer[]> countRowIndexRange(Row row) {
+        Map<String, Integer[]> indexMap = new HashMap<>();
 
         String prevValue = row.getCell(0).getStringCellValue();
-        startIndexMap.put(prevValue, 0);
+        int prevIndex = 0;
+//        startIndexMap.put(prevValue, new Integer[]{0, 0});
 
         for (Cell cell : row) {
             String currentValue = cell.getStringCellValue();
 
             if (!prevValue.equals(currentValue) && !currentValue.equals("")) {
-                startIndexMap.put(currentValue, cell.getColumnIndex());
+                indexMap.put(prevValue, new Integer[]{prevIndex, cell.getColumnIndex() - 1});
+//                startIndexMap.put(currentValue, cell.getColumnIndex());
+
+                prevValue = currentValue;
+                prevIndex = cell.getColumnIndex();
             }
         }
 
-        return startIndexMap;
+        return indexMap;
     }
 
     private static List<List<CellRangeAddress>> processMergedRegions(Sheet sheet) {
@@ -113,12 +118,12 @@ public class XlsxParser {
 
     private static List<CompletedSlot> getCompletedSlots(Sheet sheet) {
         // cells 1 - weekdays
-        // cells 2 - leson times
+        // cells 2 - lesson times
         // row 1 - courses
         // row 2 - groups
         // row 3-4 - направления и специальности excluded for now
-        Map<String, Integer> coursesIndexRange = countRowIndexRange(sheet.getRow(0));
-        Map<String, Integer> groupsIndexRange = countRowIndexRange(sheet.getRow(1));  // todo fix bug
+        Map<String, Integer[]> coursesIndexRange = countRowIndexRange(sheet.getRow(0));     // все курсы занимают несколько ячеек
+        Map<String, Integer[]> groupsIndexRange = countRowIndexRange(sheet.getRow(1));  // есть группы, занимающие либо 1, либо 2 ячейки
         Map<String, Integer> weekdaysIndexRange = countCellIndexRange(sheet, 1);
         Map<String, Integer> timesIndexRange = countCellIndexRange(sheet, 2);
 
@@ -132,7 +137,7 @@ public class XlsxParser {
 
                 if (addressesInvolved.size() != 0) {
                     // todo check if it's first
-                }else {
+                } else {
                     if (!currentCell.getStringCellValue().equals("")) {
                         boolean denominator = currentCell.getRowIndex() % 2 == 0;
                         String startTime = null;
@@ -158,7 +163,7 @@ public class XlsxParser {
                 // check if cell in merged region
                 //              yes: check if it's first
                 //                                yes: duplicate and form Completed Slots
-                                                //no: let it be
+                //no: let it be
                 //              NO: if it's not empty, form completed slot
 
             }
