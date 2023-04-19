@@ -6,9 +6,9 @@ public class EmptySlot {
     private boolean isDenominator;
     private String startTime;
     private String endTime;
-    private Integer weekDayNumber;
+    private String weekDayNumber;
 
-    public EmptySlot(boolean isDenominator, String startTime, String endTime, Integer weekDayNumber) {
+    public EmptySlot(boolean isDenominator, String startTime, String endTime, String weekDayNumber) {
         this.isDenominator = isDenominator;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -39,11 +39,11 @@ public class EmptySlot {
         this.endTime = endTime;
     }
 
-    public Integer getWeekDayNumber() {
+    public String getWeekDayNumber() {
         return weekDayNumber;
     }
 
-    public void setWeekDayNumber(Integer weekDayNumber) {
+    public void setWeekDayNumber(String weekDayNumber) {
         this.weekDayNumber = weekDayNumber;
     }
 }

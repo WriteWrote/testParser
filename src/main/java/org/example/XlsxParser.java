@@ -108,18 +108,17 @@ public class XlsxParser {
         String prevValue = sheet.getRow(offset).getCell(column).getStringCellValue();
         int prevIndex = offset;
 
-        for (int i = offset+1; i< sheet.getPhysicalNumberOfRows(); i++){
+        for (int i = offset + 1; i < sheet.getPhysicalNumberOfRows(); i++) {
             String currentValue = sheet.getRow(i).getCell(column).getStringCellValue();
 
             if (!prevValue.equals(currentValue) && !currentValue.equals("")) {
-                if (indexMap.containsKey(prevValue)){
+                if (indexMap.containsKey(prevValue)) {
                     List<Integer[]> buff = indexMap.get(prevValue);
-                    buff.add(new Integer[]{prevIndex, i-1});
+                    buff.add(new Integer[]{prevIndex, i - 1});
                     indexMap.put(prevValue, buff);
-                }
-                else{
+                } else {
                     List<Integer[]> buff = new ArrayList<>();
-                    buff.add(new Integer[]{prevIndex, i-1});
+                    buff.add(new Integer[]{prevIndex, i - 1});
                     indexMap.put(prevValue, buff);
                 }
                 prevValue = currentValue;
@@ -159,14 +158,61 @@ public class XlsxParser {
                 var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
 
                 if (addressesInvolved.size() != 0) {
+
                     // todo check if it's first
+
+
                 } else {
                     if (!currentCell.getStringCellValue().equals("")) {
                         boolean denominator = currentCell.getRowIndex() % 2 == 0;
+
+                        int rowIndex = currentCell.getRowIndex();
+                        int columnIndex = currentCell.getColumnIndex();
+
                         String startTime = null;
                         String endTime = null;
-                        Integer weekdayNumber = null;
-                        EmptySlot emptySlot = new EmptySlot(denominator, startTime, endTime, weekdayNumber);
+
+                        for (var timesList : timesIndexRange.entrySet()) {
+                            for (var pair : timesList.getValue()) {
+                                if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
+                                    startTime = timesList.getKey().split("-")[0].trim();
+                                    endTime = timesList.getKey().split("-")[1].trim();
+                                }
+                            }
+                        }
+
+                        String weekdayName = "";
+                        for (var weekdaysList : weekdaysIndexRange.entrySet()) {
+                            for (var pair : weekdaysList.getValue()) {
+                                if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
+                                    weekdayName = weekdaysList.getKey();
+                                    break;
+                                }
+                            }
+                        }
+
+                        EmptySlot emptySlot = new EmptySlot(denominator, startTime, endTime, weekdayName);
+
+                        Integer course = null;
+                        Integer group = null;
+                        Integer subgroup = null;
+
+                        for (var entry : coursesIndexRange.entrySet()) {
+                            if (columnIndex <= entry.getValue()[1] &&
+                                    columnIndex >= entry.getValue()[0]) {
+                                course = Integer.parseInt(entry.getKey().split(" ")[0]);
+                                break;
+                            }
+                        }
+                        for (var entry : groupsIndexRange.entrySet()) {
+                            if (columnIndex <= entry.getValue()[1] &&
+                                    columnIndex >= entry.getValue()[0]) {
+                                group = Integer.parseInt(entry.getKey().split(" ")[0]);
+                                subgroup = columnIndex % 2 + 1;
+                            }
+                        }
+
+                        CompletedSlot completedSlot = new CompletedSlot(0, 0, "", 0, 0, course, group, subgroup);
                     }
                 }
 

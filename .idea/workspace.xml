@@ -7,6 +7,7 @@
     <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/EmptySlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/EmptySlot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +66,7 @@
       <workItem from="1681322626279" duration="1530000" />
       <workItem from="1681395514650" duration="589000" />
       <workItem from="1681635778522" duration="632000" />
-      <workItem from="1681919762261" duration="2385000" />
+      <workItem from="1681919762261" duration="6106000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -151,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681921319001</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="finished todo with column indexes">
+      <created>1681922396649</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1681922396649</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,7 +186,8 @@
     <MESSAGE value="filtering cells p1" />
     <MESSAGE value="safe commit" />
     <MESSAGE value="fixed bug in counting courses and groups indexes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug in counting courses and groups indexes" />
+    <MESSAGE value="finished todo with column indexes" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished todo with column indexes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -190,7 +199,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>146</line>
+          <line>151</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
