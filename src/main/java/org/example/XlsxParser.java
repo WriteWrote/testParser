@@ -151,20 +151,21 @@ public class XlsxParser {
 
         var mergedRegions = processMergedRegions(sheet);
 
-        for (int i = 5; i < sheet.getPhysicalNumberOfRows(); i++) {
+        for (int i = 4; i < sheet.getPhysicalNumberOfRows(); i++) {
             int count = sheet.getRow(i).getLastCellNum();
-            for (int j = 3; j < count; j++) {
+            for (int j = 2; j < count; j++) {
                 Cell currentCell = sheet.getRow(i).getCell(j);
-                var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
+                // todo fix streaming bug
+//                var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
 
-                if (addressesInvolved.size() != 0) {
+//                if (addressesInvolved.size() != 0) {
 
                     // todo check if it's first
 
 
-                } else {
+//                } else {
                     if (!currentCell.getStringCellValue().equals("")) {
-                        boolean denominator = currentCell.getRowIndex() % 2 == 0;
+                        boolean denominator = currentCell.getRowIndex() % 2 != 0;
 
                         int rowIndex = currentCell.getRowIndex();
                         int columnIndex = currentCell.getColumnIndex();
@@ -172,12 +173,20 @@ public class XlsxParser {
                         String startTime = null;
                         String endTime = null;
 
+                        boolean flag = false;
+
                         for (var timesList : timesIndexRange.entrySet()) {
                             for (var pair : timesList.getValue()) {
                                 if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
                                     startTime = timesList.getKey().split("-")[0].trim();
                                     endTime = timesList.getKey().split("-")[1].trim();
+                                    flag = true;
+                                    break;
                                 }
+                            }
+                            if (flag){
+                                flag = false;
+                                break;
                             }
                         }
 
@@ -186,8 +195,13 @@ public class XlsxParser {
                             for (var pair : weekdaysList.getValue()) {
                                 if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
                                     weekdayName = weekdaysList.getKey();
+                                    flag = true;
                                     break;
                                 }
+                            }
+                            if (flag){
+                                flag = false;
+                                break;
                             }
                         }
 
@@ -209,9 +223,10 @@ public class XlsxParser {
                                     columnIndex >= entry.getValue()[0]) {
                                 group = Integer.parseInt(entry.getKey().split(" ")[0]);
                                 subgroup = columnIndex % 2 + 1;
+                                break;
                             }
                         }
-
+                        // empty slot goes here
                         CompletedSlot completedSlot = new CompletedSlot(0, 0, "", 0, 0, course, group, subgroup);
                     }
                 }
@@ -236,7 +251,7 @@ public class XlsxParser {
                 //              NO: if it's not empty, form completed slot
 
             }
-        }
+//        }
 
 
         return null;
