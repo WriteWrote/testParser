@@ -16,12 +16,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class XlsxParser {
-    public static void main(String[] args) throws IOException {
+    public void parse() throws IOException {
         System.out.println("Hello world!");
 
         String filepath = "src/main/resources/Saspisanie.xlsx";
 
-        // retrieving file; todo: think how it will be uploaded in actual service
         Workbook workbook = getFromFile(filepath);
 
         //bachelor
@@ -29,7 +28,7 @@ public class XlsxParser {
         //mastery
 //        Map<Integer, List<String>> mastery = getStringCells(workbook, 1);
 
-        List<CompletedSlot> bachelor = getCompletedSlots(workbook.getSheetAt(0));
+        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
 
 
         System.out.println("Finish hiiiim!");
@@ -107,6 +106,11 @@ public class XlsxParser {
                     .collect(Collectors.toList());
             sortedByCell.add(line);
         }
+
+        sortedByCell.removeAll(sortedByCell.stream()
+                .filter(List::isEmpty)
+                .collect(Collectors.toList()));
+
         return sortedByCell;
     }
 
@@ -137,16 +141,114 @@ public class XlsxParser {
         return indexMap;
     }
 
-    private static List<List<CellRangeAddress>> includedInMergedRegion(Cell slot, List<List<CellRangeAddress>> regions) {
+    private static CellRangeAddress includedInMergedRegion(Cell slot, List<List<CellRangeAddress>> regions) {
         int cell = slot.getColumnIndex();
         int row = slot.getRowIndex();
 
-        return regions.stream().
-                filter(el -> el.get(0).getFirstRow() <= row && el.get(0).getLastRow() >= row)
-                .collect(Collectors.toList());
+        for (var rowLine : regions){
+            if (rowLine.get(0).getFirstRow() <= row &&
+                    rowLine.get(0).getLastRow() >= row){
+                for (var region : rowLine){
+                    if (region.getFirstColumn() <= cell &&
+                        region.getLastColumn() >= cell){
+                        return region;
+                    }
+                }
+            }
+        }
+        return null;
+//        return regions.stream().
+//                filter(el -> el.get(0).getFirstRow() <= row && el.get(0).getLastRow() >= row)
+//                .collect(Collectors.toList());
     }
 
-    private static List<CompletedSlot> getCompletedSlots(Sheet sheet) {
+    private CompletedSlot parseCompletedSlot(Cell currentCell,
+                                             Map<String, List<Integer[]>> timesIndexRange,
+                                             Map<String, List<Integer[]>> weekdaysIndexRange,
+                                             Map<String, List<Integer[]>> coursesIndexRange,
+                                             Map<String, List<Integer[]>> groupsIndexRange) {
+        boolean denominator = currentCell.getRowIndex() % 2 != 0;
+
+        int rowIndex = currentCell.getRowIndex();
+        int columnIndex = currentCell.getColumnIndex();
+
+        String startTime = null;
+        String endTime = null;
+
+        boolean flag = false;
+
+        for (var timesList : timesIndexRange.entrySet()) {
+            for (var pair : timesList.getValue()) {
+                if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
+                    startTime = timesList.getKey().split("-")[0].trim();
+                    endTime = timesList.getKey().split("-")[1].trim();
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                flag = false;
+                break;
+            }
+        }
+
+        String weekdayName = "";
+        for (var weekdaysList : weekdaysIndexRange.entrySet()) {
+            for (var pair : weekdaysList.getValue()) {
+                if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
+                    weekdayName = weekdaysList.getKey();
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                flag = false;
+                break;
+            }
+        }
+
+        EmptySlot emptySlot = new EmptySlot(denominator, startTime, endTime, weekdayName);
+
+        Integer course = null;
+        Integer group = null;
+        Integer subgroup = null;
+
+        for (var entry : coursesIndexRange.entrySet()) {
+            for (var pair : entry.getValue()) {
+                if (columnIndex <= pair[1] &&
+                        columnIndex >= pair[0]) {
+                    course = Integer.parseInt(entry.getKey().split(" ")[0]);
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                flag = false;
+                break;
+            }
+        }
+        for (var entry : groupsIndexRange.entrySet()) {
+            for (var pair : entry.getValue()) {
+                if (columnIndex <= pair[1] &&
+                        columnIndex >= pair[0]) {
+                    group = Integer.parseInt(entry.getKey().split(" ")[0]);
+                    subgroup = columnIndex % 2 + 1;
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        // empty slot goes here
+        CompletedSlot completedSlot = new CompletedSlot(0, 0, "", 0, 0, course, group, subgroup);
+        return completedSlot;
+    }
+
+    private List<CompletedSlot> getCompletedSlots(Sheet sheet) {
+        List<CompletedSlot> result = new LinkedList<>();
+
         // cells 1 - weekdays
         // cells 2 - lesson times
         // row 1 - courses
@@ -163,118 +265,43 @@ public class XlsxParser {
             int count = sheet.getRow(i).getLastCellNum();
             for (int j = 2; j < count; j++) {
                 Cell currentCell = sheet.getRow(i).getCell(j);
-                // todo fix streaming bug
-//                var addressesInvolved = includedInMergedRegion(currentCell, mergedRegions);
+                var addressInvolved = includedInMergedRegion(currentCell, mergedRegions);
 
-//                if (addressesInvolved.size() != 0) {
+                if (addressInvolved != null) {
 
-                // todo check if it's first
+                    // todo check if it's first
 
 
-//                } else {
-                if (!currentCell.getStringCellValue().equals("")) {
-                    boolean denominator = currentCell.getRowIndex() % 2 != 0;
-
-                    int rowIndex = currentCell.getRowIndex();
-                    int columnIndex = currentCell.getColumnIndex();
-
-                    String startTime = null;
-                    String endTime = null;
-
-                    boolean flag = false;
-
-                    for (var timesList : timesIndexRange.entrySet()) {
-                        for (var pair : timesList.getValue()) {
-                            if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
-                                startTime = timesList.getKey().split("-")[0].trim();
-                                endTime = timesList.getKey().split("-")[1].trim();
-                                flag = true;
-                                break;
-                            }
-                        }
-                        if (flag) {
-                            flag = false;
-                            break;
-                        }
+                } else {
+                    if (!currentCell.getStringCellValue().equals("")) {
+                        CompletedSlot slot = this.parseCompletedSlot(currentCell, timesIndexRange, weekdaysIndexRange, coursesIndexRange, groupsIndexRange);
+                        result.add(slot);
                     }
-
-                    String weekdayName = "";
-                    for (var weekdaysList : weekdaysIndexRange.entrySet()) {
-                        for (var pair : weekdaysList.getValue()) {
-                            if (rowIndex <= pair[1] && rowIndex >= pair[0]) {
-                                weekdayName = weekdaysList.getKey();
-                                flag = true;
-                                break;
-                            }
-                        }
-                        if (flag) {
-                            flag = false;
-                            break;
-                        }
-                    }
-
-                    EmptySlot emptySlot = new EmptySlot(denominator, startTime, endTime, weekdayName);
-
-                    Integer course = null;
-                    Integer group = null;
-                    Integer subgroup = null;
-
-                    for (var entry : coursesIndexRange.entrySet()) {
-                        for (var pair : entry.getValue()) {
-                            if (columnIndex <= pair[1] &&
-                                    columnIndex >= pair[0]) {
-                                course = Integer.parseInt(entry.getKey().split(" ")[0]);
-                                flag = true;
-                                break;
-                            }
-                        }
-                        if (flag) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                    for (var entry : groupsIndexRange.entrySet()) {
-                        for (var pair : entry.getValue()) {
-                            if (columnIndex <= pair[1] &&
-                                    columnIndex >= pair[0]) {
-                                group = Integer.parseInt(entry.getKey().split(" ")[0]);
-                                subgroup = columnIndex % 2 + 1;
-                                flag = true;
-                                break;
-                            }
-                        }
-                        if (flag) {
-                            break;
-                        }
-                    }
-                    // empty slot goes here
-                    CompletedSlot completedSlot = new CompletedSlot(0, 0, "", 0, 0, course, group, subgroup);
                 }
+
+                /* Algorithm:
+                 * get cell
+                 * check if it's empty -> check if it's in merged region
+                 *      if in merged region: check if its first, then take info from it
+                 *                           form a Completed Slot
+                 *                           duplicate it for merged region
+                 *                           if not first, let it go, because first cell already was there before
+                 *      if no merged region:
+                 * if it's not empty: check if it's in merged region, then take info, form a Completed Slot, duplicate
+                 *
+                 * to form a completed slot need to create empty slot, subject and teacher (in real project will be searching those in db
+                 * */
+
+                // check if cell in merged region
+                //              yes: check if it's first
+                //                                yes: duplicate and form Completed Slots
+                //no: let it be
+                //              NO: if it's not empty, form completed slot
+
             }
-
-            /* Algorithm:
-             * get cell
-             * check if it's empty -> check if it's in merged region
-             *      if in merged region: check if its first, then take info from it
-             *                           form a Completed Slot
-             *                           duplicate it for merged region
-             *                           if not first, let it go, because first cell already was there before
-             *      if no merged region:
-             * if it's not empty: check if it's in merged region, then take info, form a Completed Slot, duplicate
-             *
-             * to form a completed slot need to create empty slot, subject and teacher (in real project will be searching those in db
-             * */
-
-            // check if cell in merged region
-            //              yes: check if it's first
-            //                                yes: duplicate and form Completed Slots
-            //no: let it be
-            //              NO: if it's not empty, form completed slot
-
         }
-//        }
 
 
-        return null;
+        return result;
     }
 }
