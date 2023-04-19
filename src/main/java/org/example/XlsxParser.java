@@ -145,12 +145,12 @@ public class XlsxParser {
         int cell = slot.getColumnIndex();
         int row = slot.getRowIndex();
 
-        for (var rowLine : regions){
+        for (var rowLine : regions) {
             if (rowLine.get(0).getFirstRow() <= row &&
-                    rowLine.get(0).getLastRow() >= row){
-                for (var region : rowLine){
+                    rowLine.get(0).getLastRow() >= row) {
+                for (var region : rowLine) {
                     if (region.getFirstColumn() <= cell &&
-                        region.getLastColumn() >= cell){
+                            region.getLastColumn() >= cell) {
                         return region;
                     }
                 }
@@ -268,10 +268,24 @@ public class XlsxParser {
                 var addressInvolved = includedInMergedRegion(currentCell, mergedRegions);
 
                 if (addressInvolved != null) {
+                    if (currentCell.getColumnIndex() == addressInvolved.getFirstColumn() &&
+                            currentCell.getRowIndex() == addressInvolved.getFirstRow()) {
+                        CompletedSlot slot = parseCompletedSlot(currentCell, timesIndexRange, weekdaysIndexRange, coursesIndexRange, groupsIndexRange);
+                        result.add(slot);
 
-                    // todo check if it's first
-
-
+                        for (int cellIndex = addressInvolved.getFirstColumn(); cellIndex <= addressInvolved.getLastColumn(); cellIndex++) {
+                            for (int rowInde = addressInvolved.getFirstRow(); rowInde <= addressInvolved.getLastRow(); rowInde++) {
+                                CompletedSlot duplicatedSlot = parseCompletedSlot(sheet.getRow(rowInde).getCell(cellIndex),
+                                        timesIndexRange,
+                                        weekdaysIndexRange,
+                                        coursesIndexRange,
+                                        groupsIndexRange);
+                                // todo: create parsing the string value itself
+                                // todo: set all slot params, except course, group, subgroup
+                                result.add(slot);
+                            }
+                        }
+                    }
                 } else {
                     if (!currentCell.getStringCellValue().equals("")) {
                         CompletedSlot slot = this.parseCompletedSlot(currentCell, timesIndexRange, weekdaysIndexRange, coursesIndexRange, groupsIndexRange);
