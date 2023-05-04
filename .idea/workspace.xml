@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/WeekDaysEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Run.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Run.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Saspisanie.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Saspisanie.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -85,7 +90,12 @@
       <workItem from="1681322626279" duration="1530000" />
       <workItem from="1681395514650" duration="589000" />
       <workItem from="1681635778522" duration="632000" />
-      <workItem from="1681919762261" duration="12050000" />
+      <workItem from="1681919762261" duration="12161000" />
+      <workItem from="1682010358328" duration="10285000" />
+      <workItem from="1682342512310" duration="2391000" />
+      <workItem from="1682699848486" duration="3005000" />
+      <workItem from="1683031266159" duration="49000" />
+      <workItem from="1683203813043" duration="3046000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -206,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681936221087</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="finished main logic&#10;added more todo">
+      <created>1681937031611</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1681937031611</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,15 +255,26 @@
     <MESSAGE value="safe commit: also found some bugs" />
     <MESSAGE value="parsing one complete slot is done" />
     <MESSAGE value="fixed bug with finding involved address" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug with finding involved address" />
+    <MESSAGE value="finished main logic&#10;added more todo" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished main logic&#10;added more todo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>33</line>
+          <line>46</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
+          <line>132</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
