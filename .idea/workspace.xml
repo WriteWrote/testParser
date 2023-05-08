@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/WeekDaysEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Run.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Run.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Saspisanie.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Saspisanie.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +91,9 @@
       <workItem from="1682342512310" duration="2391000" />
       <workItem from="1682699848486" duration="3005000" />
       <workItem from="1683031266159" duration="49000" />
-      <workItem from="1683203813043" duration="3046000" />
+      <workItem from="1683203813043" duration="6123000" />
+      <workItem from="1683358004109" duration="3313000" />
+      <workItem from="1683539805501" duration="776000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -223,7 +221,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681937031611</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="basic structure for one person">
+      <created>1683206945435</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1683206945435</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,7 +261,8 @@
     <MESSAGE value="parsing one complete slot is done" />
     <MESSAGE value="fixed bug with finding involved address" />
     <MESSAGE value="finished main logic&#10;added more todo" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished main logic&#10;added more todo" />
+    <MESSAGE value="basic structure for one person" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic structure for one person" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -265,16 +271,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
           <line>46</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>157</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>132</line>
-          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -33,15 +33,8 @@ public class XlsxParser {
         Workbook workbook = getFromFile(filepath);
         workbook = new XSSFWorkbook(filepath);
 
+        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
 
-        //bachelor
-//        Map<Integer, List<String>> bachelor = getStringCells(workbook, 0);
-        //mastery
-//        Map<Integer, List<String>> mastery = getStringCells(workbook, 1);
-
-//        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
-//        String html = convertXlsxToHtml2((HSSFWorkbook) workbook);
-//        String html = toHtml(new File(filepath));
         String html = toHtmlFromHssfWorkbook();
 
         System.out.println("Finish hiiiim!");
@@ -68,9 +61,9 @@ public class XlsxParser {
                 "16:55 - 18:30",
                 "18:45 - 20:00"};
 
-        Workbook workbook = new HSSFWorkbook();
+        HSSFWorkbook workbook = new HSSFWorkbook();
 
-        String safeSheetName = WorkbookUtil.createSafeSheetName("Personal timetable for {teacher}");
+        String safeSheetName = WorkbookUtil.createSafeSheetName("");
         Sheet sheet = workbook.createSheet(safeSheetName);
 
         sheet.createRow(0).setHeight((short) 500);
@@ -88,15 +81,16 @@ public class XlsxParser {
             sheet.setColumnWidth(i, 5000);
 
             row.createCell(0);
+
             for (int j = 1; j < 7; j++) {
                 setBordersOnCell(i, j, sheet);
 
                 if (i % 2 == 0) {
                     sheet.addMergedRegion(new CellRangeAddress(
-                            i - 1, //first row (0-based)
-                            i, //last row  (0-based)
-                            j, //first column (0-based)
-                            j  //last column  (0-based)
+                            i - 1,
+                            i,
+                            j,
+                            j
                     ));
                 }
             }
@@ -107,10 +101,10 @@ public class XlsxParser {
             setBordersOnCell(i, 0, sheet);
             if (i % 2 == 0) {
                 sheet.addMergedRegion(new CellRangeAddress(
-                        i - 1, //first row (0-based)
-                        i, //last row  (0-based)
-                        0, //first column (0-based)
-                        0  //last column  (0-based)
+                        i - 1,
+                        i,
+                        0,
+                        0
                 ));
             } else {
                 if (counter < timesArray.length) {
@@ -125,17 +119,14 @@ public class XlsxParser {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        try {
+            return convertXlsxToHtml2(workbook);
+        } catch (ParserConfigurationException | TransformerException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static String toHtml(File inputDocument) throws IOException {
-        StringWriter output = new StringWriter();
-        FileInputStream stream = new FileInputStream(inputDocument);
-        ToHtml.create(stream, output).printPage();
-        return output.toString();
-    }
-
-    private String convertXlsxToHtml2(HSSFWorkbook excelDoc) throws ParserConfigurationException, TransformerException, IOException {
+    private static String convertXlsxToHtml2(HSSFWorkbook excelDoc) throws ParserConfigurationException, TransformerException, IOException {
         ExcelToHtmlConverter converter = new ExcelToHtmlConverter(
                 DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
         );
