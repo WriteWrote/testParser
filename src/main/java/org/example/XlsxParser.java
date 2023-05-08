@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.example.model.CompletedSlot;
 import org.example.model.EmptySlot;
+import org.example.model.Timetable;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,6 +21,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,23 +35,27 @@ public class XlsxParser {
         Workbook workbook = getFromFile(filepath);
         workbook = new XSSFWorkbook(filepath);
 
-        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
+//        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
 
         List<EmptySlot> emptySlots = new ArrayList<>();
         emptySlots.add(new EmptySlot(true, "8:00", "9:45", "Monday"));
         emptySlots.add(new EmptySlot(true, "9:45", "11:20", "Tuesday"));
         emptySlots.add(new EmptySlot(true, "11:30", "13:05", "Wednesday"));
 
-        List<CompletedSlot> testSlots = new ArrayList<>();
-        testSlots.add(new CompletedSlot(1, 1, "305П", 1, 1, 1, 1,1));
-        testSlots.add(new CompletedSlot(1, 2, "301П", 1, 1, 1, 12,1));
-        testSlots.add(new CompletedSlot(1, 3, "292", 5, 4, 4, 6,null));
-        testSlots.add(new CompletedSlot(1, 4, "302П", 1, 1, 1, 12,2));
-        testSlots.add(new CompletedSlot(1, 1, "292", 5, 6, 3, 7,2));
-        testSlots.add(new CompletedSlot(1, 2, "303П", 1, 3, 2, 3,1));
-        testSlots.add(new CompletedSlot(1, 3, "292", 5, 4, 4, 1,null));
+        List<Timetable> timetables = new ArrayList<>();
+        timetables.add(new Timetable("",Date.from(Instant.now()), true, -1));
+        timetables.add(new Timetable("",Date.from(Instant.now()), false, -1));
 
-        String html = toHtmlFromHssfWorkbook();
+        List<CompletedSlot> testSlots = new ArrayList<>();
+        testSlots.add(new CompletedSlot(1, emptySlots.get(0), "305П", 1, 1, 1, 1, 1, timetables.get(1)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(1), "301П", 1, 1, 1, 12, 1, timetables.get(1)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(2), "292", 5, 4, 4, 6, null, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(0), "302П", 1, 1, 1, 12, 2, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(1), "292", 5, 6, 3, 7, 2, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(2), "303П", 1, 3, 2, 3, 1, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(0), "292", 5, 4, 4, 1, null, timetables.get(0)));
+
+        String html = toHtmlFromHssfWorkbook(emptySlots, testSlots);
 
         System.out.println("Finish hiiiim!");
     }
@@ -66,7 +72,7 @@ public class XlsxParser {
         RegionUtil.setBorderTop(BorderStyle.MEDIUM, new CellRangeAddress(i, i, j, j), sheet);
     }
 
-    private static String toHtmlFromHssfWorkbook() {
+    private static String toHtmlFromHssfWorkbook(List<EmptySlot> emptySlots, List<CompletedSlot> completedSlots) {
         final String[] timesArray = {"8:00 - 9:30",
                 "9:45 - 11:20",
                 "11:30 - 13:05",
@@ -74,6 +80,12 @@ public class XlsxParser {
                 "15:10 - 16:45",
                 "16:55 - 18:30",
                 "18:45 - 20:00"};
+
+        List<CompletedSlot> lessons = completedSlots.stream()
+                .filter(lesson -> lesson.getSchedule().getIsActual())
+                .sorted(Comparator.comparing(lesson -> lesson.getSlotId().getWeekDayNumber()))
+                .sorted(Comparator.comparing(lesson -> lesson.getSlotId().getStartTime()))
+                .collect(Collectors.toList());
 
         HSSFWorkbook workbook = new HSSFWorkbook();
 
@@ -268,7 +280,7 @@ public class XlsxParser {
         String prevValue = sheet.getRow(offset).getCell(column).getStringCellValue();
         int prevIndex = offset;
 
-        for (int i = offset + 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+        for (int i = offset; i < sheet.getPhysicalNumberOfRows(); i++) {
             String currentValue = sheet.getRow(i).getCell(column).getStringCellValue();
 
             if (!prevValue.equals(currentValue) && !currentValue.equals("")) {
@@ -400,7 +412,7 @@ public class XlsxParser {
                 }
             }
         }
-        CompletedSlot completedSlot = new CompletedSlot(0, 0, "", 0, 0, course, groupAndSubgroup[0], groupAndSubgroup[1]);
+        CompletedSlot completedSlot = new CompletedSlot(0, new EmptySlot(), "", 0, 0, course, groupAndSubgroup[0], groupAndSubgroup[1]);
         return completedSlot;
     }
 

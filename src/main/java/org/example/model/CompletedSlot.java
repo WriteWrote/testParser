@@ -5,7 +5,7 @@ public class CompletedSlot {
 
     // time
     private Integer timetableId;
-    private Integer slotId;
+    private EmptySlot slotId;
 
     //place
     private String classroom;
@@ -20,8 +20,8 @@ public class CompletedSlot {
     private Integer course;
     private Integer group;
     private Integer subgroup;
-
-    public CompletedSlot(Integer timetableId, Integer slotId, String classroom, Integer teacherId, Integer subjectId, Integer course, Integer group, Integer subgroup) {
+    private Timetable schedule;
+    public CompletedSlot(Integer timetableId, EmptySlot slotId, String classroom, Integer teacherId, Integer subjectId, Integer course, Integer group, Integer subgroup) {
         this.timetableId = timetableId;
         this.slotId = slotId;
         this.classroom = classroom;
@@ -32,6 +32,18 @@ public class CompletedSlot {
         this.subgroup = subgroup;
     }
 
+    public CompletedSlot(Integer timetableId, EmptySlot slotId, String classroom, Integer teacherId, Integer subjectId, Integer course, Integer group, Integer subgroup, Timetable schedule) {
+        this.timetableId = timetableId;
+        this.slotId = slotId;
+        this.classroom = classroom;
+        this.teacherId = teacherId;
+        this.subjectId = subjectId;
+        this.course = course;
+        this.group = group;
+        this.subgroup = subgroup;
+        this.schedule = schedule;
+    }
+
     public Integer getTimetableId() {
         return timetableId;
     }
@@ -40,11 +52,11 @@ public class CompletedSlot {
         this.timetableId = timetableId;
     }
 
-    public Integer getSlotId() {
+    public EmptySlot getSlotId() {
         return slotId;
     }
 
-    public void setSlotId(Integer slotId) {
+    public void setSlotId(EmptySlot slotId) {
         this.slotId = slotId;
     }
 
@@ -94,5 +106,13 @@ public class CompletedSlot {
 
     public void setSubgroup(Integer subgroup) {
         this.subgroup = subgroup;
+    }
+
+    public Timetable getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Timetable schedule) {
+        this.schedule = schedule;
     }
 }

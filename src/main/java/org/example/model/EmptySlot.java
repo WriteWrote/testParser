@@ -15,6 +15,9 @@ public class EmptySlot {
         this.weekDayNumber = weekDayNumber;
     }
 
+    public EmptySlot() {
+    }
+
     public boolean isDenominator() {
         return isDenominator;
     }

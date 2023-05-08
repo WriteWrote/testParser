@@ -1,17 +1,18 @@
 package org.example.model;
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class Timetable {
 //    private Integer id;
 
     private String timetableName;
-    private Data uploadDate;
+    private Date uploadDate;
     private Boolean isCurrent;
     private Integer previousVersionId;
     private Data actualTo;
 
-    public Timetable(String timetableName, Data uploadDate, Boolean isCurrent, Integer previousVersionId, Data actualTo) {
+    public Timetable(String timetableName, Date uploadDate, Boolean isCurrent, Integer previousVersionId) {
         this.timetableName = timetableName;
         this.uploadDate = uploadDate;
         this.isCurrent = isCurrent;
@@ -27,15 +28,15 @@ public class Timetable {
         this.timetableName = timetableName;
     }
 
-    public Data getUploadDate() {
+    public Date getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Data uploadDate) {
+    public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
     }
 
-    public Boolean getCurrent() {
+    public Boolean getIsActual() {
         return isCurrent;
     }
 
