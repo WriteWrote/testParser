@@ -93,7 +93,7 @@
       <workItem from="1683031266159" duration="49000" />
       <workItem from="1683203813043" duration="6123000" />
       <workItem from="1683358004109" duration="3313000" />
-      <workItem from="1683539805501" duration="776000" />
+      <workItem from="1683539805501" duration="1199000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -228,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683206945435</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="safe commit">
+      <created>1683546484657</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1683546484657</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -253,7 +260,6 @@
     <MESSAGE value="classes-imitators" />
     <MESSAGE value="sorting merged regions succeeded" />
     <MESSAGE value="filtering cells p1" />
-    <MESSAGE value="safe commit" />
     <MESSAGE value="fixed bug in counting courses and groups indexes" />
     <MESSAGE value="finished todo with column indexes" />
     <MESSAGE value="finished making completed slot for one slot" />
@@ -262,14 +268,15 @@
     <MESSAGE value="fixed bug with finding involved address" />
     <MESSAGE value="finished main logic&#10;added more todo" />
     <MESSAGE value="basic structure for one person" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic structure for one person" />
+    <MESSAGE value="safe commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="safe commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>46</line>
+          <line>53</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

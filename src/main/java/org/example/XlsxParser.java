@@ -35,6 +35,20 @@ public class XlsxParser {
 
         List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
 
+        List<EmptySlot> emptySlots = new ArrayList<>();
+        emptySlots.add(new EmptySlot(true, "8:00", "9:45", "Monday"));
+        emptySlots.add(new EmptySlot(true, "9:45", "11:20", "Tuesday"));
+        emptySlots.add(new EmptySlot(true, "11:30", "13:05", "Wednesday"));
+
+        List<CompletedSlot> testSlots = new ArrayList<>();
+        testSlots.add(new CompletedSlot(1, 1, "305П", 1, 1, 1, 1,1));
+        testSlots.add(new CompletedSlot(1, 2, "301П", 1, 1, 1, 12,1));
+        testSlots.add(new CompletedSlot(1, 3, "292", 5, 4, 4, 6,null));
+        testSlots.add(new CompletedSlot(1, 4, "302П", 1, 1, 1, 12,2));
+        testSlots.add(new CompletedSlot(1, 1, "292", 5, 6, 3, 7,2));
+        testSlots.add(new CompletedSlot(1, 2, "303П", 1, 3, 2, 3,1));
+        testSlots.add(new CompletedSlot(1, 3, "292", 5, 4, 4, 1,null));
+
         String html = toHtmlFromHssfWorkbook();
 
         System.out.println("Finish hiiiim!");
