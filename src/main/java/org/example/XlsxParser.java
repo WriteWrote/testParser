@@ -38,13 +38,13 @@ public class XlsxParser {
 //        List<CompletedSlot> bachelor = this.getCompletedSlots(workbook.getSheetAt(0));
 
         List<EmptySlot> emptySlots = new ArrayList<>();
-        emptySlots.add(new EmptySlot(true, "8:00", "9:45", "Monday"));
-        emptySlots.add(new EmptySlot(true, "9:45", "11:20", "Tuesday"));
-        emptySlots.add(new EmptySlot(true, "11:30", "13:05", "Wednesday"));
+        emptySlots.add(new EmptySlot(true, "8:00", "9:30", "Monday"));
+        emptySlots.add(new EmptySlot(false, "9:45", "11:20", "Tuesday"));
+        emptySlots.add(new EmptySlot(false, "11:30", "13:05", "Wednesday"));
 
         List<Timetable> timetables = new ArrayList<>();
-        timetables.add(new Timetable("",Date.from(Instant.now()), true, -1));
-        timetables.add(new Timetable("",Date.from(Instant.now()), false, -1));
+        timetables.add(new Timetable("", Date.from(Instant.now()), true, -1));
+        timetables.add(new Timetable("", Date.from(Instant.now()), false, -1));
 
         List<CompletedSlot> testSlots = new ArrayList<>();
         testSlots.add(new CompletedSlot(1, emptySlots.get(0), "305П", 1, 1, 1, 1, 1, timetables.get(1)));
@@ -72,6 +72,14 @@ public class XlsxParser {
         RegionUtil.setBorderTop(BorderStyle.MEDIUM, new CellRangeAddress(i, i, j, j), sheet);
     }
 
+    private static Integer findTimeRowIndex(String s, String[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (s.equals(array[i]))
+                return i;
+        }
+        return -1;
+    }
+
     private static String toHtmlFromHssfWorkbook(List<EmptySlot> emptySlots, List<CompletedSlot> completedSlots) {
         final String[] timesArray = {"8:00 - 9:30",
                 "9:45 - 11:20",
@@ -95,13 +103,6 @@ public class XlsxParser {
         sheet.createRow(0).setHeight((short) 500);
         sheet.setColumnWidth(0, 5000);
 
-        CreationHelper helper = workbook.getCreationHelper();
-
-        for (int i = 1; i < 7; i++) {
-            sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString(String.valueOf(WeekDaysEnum.values()[i])));
-            setBordersOnCell(0, i, sheet);
-        }
-
         for (int i = 1; i < 15; i++) {
             Row row = sheet.createRow(i);
             sheet.setColumnWidth(i, 5000);
@@ -110,15 +111,40 @@ public class XlsxParser {
 
             for (int j = 1; j < 7; j++) {
                 setBordersOnCell(i, j, sheet);
+//                if (i % 2 == 0) {
+//                    sheet.addMergedRegion(new CellRangeAddress(
+//                            i - 1,
+//                            i,
+//                            j,
+//                            j
+//                    ));
+//                }
+            }
+        }
 
-                if (i % 2 == 0) {
-                    sheet.addMergedRegion(new CellRangeAddress(
-                            i - 1,
-                            i,
-                            j,
-                            j
-                    ));
+        CreationHelper helper = workbook.getCreationHelper();
+
+        for (int i = 1; i < 7; i++) {
+            String currentWeekdayValue = String.valueOf(WeekDaysEnum.values()[i]);
+            sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString(currentWeekdayValue));
+            setBordersOnCell(0, i, sheet);
+
+            List<CompletedSlot> weekdayLessons = lessons.stream()
+                    .filter(lesson -> lesson.getSlotId().getWeekDayNumber().equals(currentWeekdayValue))
+                    .collect(Collectors.toList());
+
+            for (CompletedSlot slot : weekdayLessons) {
+                String timeGap = slot.getSlotId().getStartTime() + " - " + slot.getSlotId().getEndTime();
+                boolean isDemoninator = slot.getSlotId().isDenominator();
+                int rowTimeIndex = findTimeRowIndex(timeGap, timesArray);
+                rowTimeIndex = rowTimeIndex * 2 + 1;
+
+                if (isDemoninator) {
+                    ++rowTimeIndex;
                 }
+
+                sheet.createRow(rowTimeIndex).createCell(i).setCellValue("filled");
+                setBordersOnCell(rowTimeIndex, i, sheet);
             }
         }
 

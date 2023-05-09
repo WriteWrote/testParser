@@ -7,9 +7,6 @@
     <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/CompletedSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/CompletedSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/EmptySlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/EmptySlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Timetable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Timetable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +93,8 @@
       <workItem from="1683031266159" duration="49000" />
       <workItem from="1683203813043" duration="6123000" />
       <workItem from="1683358004109" duration="3313000" />
-      <workItem from="1683539805501" duration="3561000" />
+      <workItem from="1683539805501" duration="3706000" />
+      <workItem from="1683631053444" duration="2209000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -245,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683546866790</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="safe commit">
+      <created>1683549362752</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1683549362752</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,52 +283,42 @@
     <MESSAGE value="fixed bug with finding involved address" />
     <MESSAGE value="finished main logic&#10;added more todo" />
     <MESSAGE value="basic structure for one person" />
-    <MESSAGE value="safe commit" />
     <MESSAGE value="test data" />
-    <option name="LAST_COMMIT_MESSAGE" value="test data" />
+    <MESSAGE value="safe commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="safe commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>83</line>
+          <line>91</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>396</line>
+          <line>422</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>390</line>
+          <line>416</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>357</line>
+          <line>383</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>431</line>
+          <line>457</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>283</line>
+          <line>309</line>
           <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
