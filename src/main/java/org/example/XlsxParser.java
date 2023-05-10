@@ -121,6 +121,13 @@ public class XlsxParser {
             sheet.addMergedRegion(new CellRangeAddress(i, i + timesArray.length * 2 - 1, 0, 0));
         }
 
+        for (int i = 1; i <= count; i++) {
+            for (int j = 2; j < teachersIds.size() + 2; j++) {
+                sheet.getRow(i).createCell(j);
+                setBordersOnCell(i, j, sheet);
+            }
+        }
+
         for (int t = 0; t < teachersIds.size(); t++) {
             int teacherId = teachersIds.get(t);
             List<CompletedSlot> teacherLessons = lessons.stream()
@@ -144,25 +151,25 @@ public class XlsxParser {
                         ++rowTimeIndex;
                     }
                     sheet.getRow(rowTimeIndex).createCell(t + 2).setCellValue(helper.createRichTextString(slot.getClassroom()));
-                    setBordersOnCell(t, i, sheet);
+                    setBordersOnCell(rowTimeIndex, t + 2, sheet);
                 }
             }
         }
 
-//        for (int i = 1; i < 14; i += 2) {
-//            for (int j = 1; j < 7; j++) {
-//                if (sheet.getRow(i).getCell(j).getStringCellValue().equals("") &&
-//                        (sheet.getRow(i + 1).getCell(j).getStringCellValue().equals(""))) {
-//                    sheet.addMergedRegion(new CellRangeAddress(
-//                            i,
-//                            i + 1,
-//                            j,
-//                            j
-//                    ));
-//                }
-//            }
-//        }
-
+        for (int i = 1; i < count; i += 2) {
+            for (int j = 2; j < teachersIds.size()+2; j++) {
+                if (sheet.getRow(i).getCell(j).getStringCellValue().equals("") &&
+                        (sheet.getRow(i + 1).getCell(j).getStringCellValue().equals(""))) {
+                    sheet.addMergedRegion(new CellRangeAddress(
+                            i,
+                            i + 1,
+                            j,
+                            j
+                    ));
+                    setBordersOnCell(i, j, sheet);
+                }
+            }
+        }
 
         try (OutputStream fileOut = new FileOutputStream("htmlToDocForChair.xls")) {
             workbook.write(fileOut);
