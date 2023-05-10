@@ -81,17 +81,30 @@ public class XlsxParser {
         String safeSheetName = WorkbookUtil.createSafeSheetName(" ");
         Sheet sheet = workbook.createSheet(safeSheetName);
 
-        sheet.createRow(0).setHeight((short) 1000);
-        sheet.setDefaultColumnWidth(20);
-        sheet.getRow(0).createCell(0).setCellValue("Weekday");
-        setBordersOnCell(0, 0, sheet);
-        sheet.getRow(0).createCell(1).setCellValue("Times");
-        setBordersOnCell(0, 1, sheet);
+        CellStyle styleVertical = workbook.createCellStyle();
+        styleVertical.setRotation((short) 90);
+        styleVertical.setAlignment(HorizontalAlignment.CENTER);
+        styleVertical.setVerticalAlignment(VerticalAlignment.CENTER);
 
+        CellStyle styleHorisontal = workbook.createCellStyle();
+        styleHorisontal.setAlignment(HorizontalAlignment.CENTER);
+        styleHorisontal.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        sheet.setDefaultColumnWidth(17);
         CreationHelper helper = workbook.getCreationHelper();
+
+        sheet.createRow(0).setHeight((short) 2500);
+        sheet.setColumnWidth(0, 2300);
+        sheet.getRow(0).createCell(0).setCellValue(helper.createRichTextString("Weekday"));
+        sheet.getRow(0).getCell(0).setCellStyle(styleHorisontal);
+        setBordersOnCell(0, 0, sheet);
+        sheet.getRow(0).createCell(1).setCellValue(helper.createRichTextString("Times"));
+        sheet.getRow(0).getCell(1).setCellStyle(styleHorisontal);
+        setBordersOnCell(0, 1, sheet);
 
         for (int i = 2; i < teachersIds.size() + 2; i++) {
             sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString("Teacher #" + (i - 2) + " id:" + teachersIds.get(i - 2)));
+            sheet.getRow(0).getCell(i).setCellStyle(styleVertical);
             setBordersOnCell(0, i, sheet);
         }
 
@@ -99,6 +112,7 @@ public class XlsxParser {
         for (int i = 1; i < count; i += timesArray.length * 2) {
             var weekDay = String.valueOf(WeekDaysEnum.values()[(i / timesArray.length) / 2 + 1]);
             sheet.createRow(i).createCell(0).setCellValue(helper.createRichTextString(weekDay));
+            sheet.getRow(i).getCell(0).setCellStyle(styleVertical);
             sheet.getRow(i).setHeight((short) 400);
             setBordersOnCell(i, 0, sheet);
 
@@ -112,6 +126,7 @@ public class XlsxParser {
                     var time = timesArray[timeCount];
                     sheet.getRow(j - 1).createCell(1).setCellValue(helper.createRichTextString(time));
                     sheet.getRow(j).createCell(1);
+                    sheet.getRow(j-1).getCell(1).setCellStyle(styleHorisontal);
                     setBordersOnCell(j, 1, sheet);
                     setBordersOnCell(j - 1, 1, sheet);
                     sheet.addMergedRegion(new CellRangeAddress(j - 1, j, 1, 1));
@@ -157,7 +172,7 @@ public class XlsxParser {
         }
 
         for (int i = 1; i < count; i += 2) {
-            for (int j = 2; j < teachersIds.size()+2; j++) {
+            for (int j = 2; j < teachersIds.size() + 2; j++) {
                 if (sheet.getRow(i).getCell(j).getStringCellValue().equals("") &&
                         (sheet.getRow(i + 1).getCell(j).getStringCellValue().equals(""))) {
                     sheet.addMergedRegion(new CellRangeAddress(

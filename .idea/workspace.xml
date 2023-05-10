@@ -99,7 +99,7 @@
       <workItem from="1683358004109" duration="3313000" />
       <workItem from="1683539805501" duration="3706000" />
       <workItem from="1683631053444" duration="5936000" />
-      <workItem from="1683718082200" duration="7514000" />
+      <workItem from="1683718082200" duration="8749000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -276,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683727900767</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="merging empty regions">
+      <created>1683728600796</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1683728600796</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,24 +321,25 @@
     <MESSAGE value="filling step 1 finished" />
     <MESSAGE value="bones for chair saspisanie" />
     <MESSAGE value="filling done" />
-    <option name="LAST_COMMIT_MESSAGE" value="filling done" />
+    <MESSAGE value="merging empty regions" />
+    <option name="LAST_COMMIT_MESSAGE" value="merging empty regions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>548</line>
+          <line>562</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>542</line>
+          <line>556</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>509</line>
+          <line>523</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
