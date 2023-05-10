@@ -48,16 +48,108 @@ public class XlsxParser {
 
         List<CompletedSlot> testSlots = new ArrayList<>();
         testSlots.add(new CompletedSlot(1, emptySlots.get(0), "305П", 1, 1, 1, 1, 1, timetables.get(1)));
-        testSlots.add(new CompletedSlot(1, emptySlots.get(1), "301П", 1, 1, 1, 12, 1, timetables.get(1)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(1), "301П", 2, 1, 1, 12, 1, timetables.get(1)));
         testSlots.add(new CompletedSlot(1, emptySlots.get(2), "292", 5, 4, 4, 6, null, timetables.get(0)));
-        testSlots.add(new CompletedSlot(1, emptySlots.get(0), "302П", 1, 1, 1, 12, 2, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(0), "302П", 2, 1, 1, 12, 2, timetables.get(0)));
         testSlots.add(new CompletedSlot(1, emptySlots.get(1), "292", 5, 6, 3, 7, 2, timetables.get(0)));
-        testSlots.add(new CompletedSlot(1, emptySlots.get(2), "303П", 1, 3, 2, 3, 1, timetables.get(0)));
+        testSlots.add(new CompletedSlot(1, emptySlots.get(2), "303П", 3, 3, 2, 3, 1, timetables.get(0)));
         testSlots.add(new CompletedSlot(1, emptySlots.get(0), "292", 5, 4, 4, 1, null, timetables.get(0)));
 
-        String html = toHtmlFromHssfWorkbook(emptySlots, testSlots);
+        final String[] timesArray = {"8:00 - 9:30",
+                "9:45 - 11:20",
+                "11:30 - 13:05",
+                "13:25 - 15:00",
+                "15:10 - 16:45",
+                "16:55 - 18:30",
+                "18:40 - 20:00"};
+
+
+        String html = toHtmlFromHssfWorkbook(emptySlots, testSlots, timesArray);
+        List<Integer> teachersIds = new ArrayList<>();
+        teachersIds.add(1);
+        teachersIds.add(2);
+        teachersIds.add(3);
+
+        html = HSSFSchemaForChair(teachersIds, timesArray);
 
         System.out.println("Finish hiiiim!");
+    }
+
+    private static String HSSFSchemaForChair(List<Integer> teachersIds, String[] timesArray) {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        String safeSheetName = WorkbookUtil.createSafeSheetName(" ");
+        Sheet sheet = workbook.createSheet(safeSheetName);
+
+        sheet.createRow(0).setHeight((short) 1000);
+        sheet.setDefaultColumnWidth(20);
+        sheet.getRow(0).createCell(0).setCellValue("Weekday");
+        setBordersOnCell(0, 0, sheet);
+        sheet.getRow(0).createCell(1).setCellValue("Times");
+        setBordersOnCell(0, 1, sheet);
+
+        CreationHelper helper = workbook.getCreationHelper();
+
+        for (int i = 2; i < teachersIds.size() + 2; i++) {
+            sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString("Teacher #" + (i - 2) + " id:" + teachersIds.get(i - 2)));
+            setBordersOnCell(0, i, sheet);
+        }
+
+        int count = (WeekDaysEnum.values().length * timesArray.length - timesArray.length) * 2;
+        for (int i = 1; i < count; i += timesArray.length * 2) {
+            var weekDay = String.valueOf(WeekDaysEnum.values()[(i / timesArray.length) / 2 + 1]);
+            sheet.createRow(i).createCell(0).setCellValue(helper.createRichTextString(weekDay));
+            sheet.getRow(i).setHeight((short) 400);
+            setBordersOnCell(i, 0, sheet);
+
+            int timeCount = 0;
+            for (int j = i + 1; j < i + timesArray.length * 2; j++) {
+                sheet.createRow(j).createCell(0);
+                sheet.getRow(j).setHeight((short) 400);
+                setBordersOnCell(j, 0, sheet);
+
+                if (j % 2 == 0) {
+                    var time = timesArray[timeCount];
+                    sheet.getRow(j - 1).createCell(1).setCellValue(helper.createRichTextString(time));
+                    sheet.getRow(j).createCell(1);
+                    setBordersOnCell(j, 1, sheet);
+                    setBordersOnCell(j - 1, 1, sheet);
+                    sheet.addMergedRegion(new CellRangeAddress(j - 1, j, 1, 1));
+                    ++timeCount;
+                }
+            }
+            sheet.addMergedRegion(new CellRangeAddress(i, i + timesArray.length * 2 - 1, 0, 0));
+        }
+
+//        int counter = 0;
+//        for (int i = 1; i < 15; i++) {
+//            setBordersOnCell(i, 0, sheet);
+//            if (i % 2 == 0) {
+//                sheet.addMergedRegion(new CellRangeAddress(
+//                        i - 1,
+//                        i,
+//                        0,
+//                        0
+//                ));
+//            } else {
+//                if (counter < timesArray.length) {
+//                    sheet.getRow(i).getCell(0).setCellValue(helper.createRichTextString(timesArray[counter]));
+//                    ++counter;
+//                }
+//            }
+//        }
+
+
+        try (OutputStream fileOut = new FileOutputStream("htmlToDocForChair.xls")) {
+            workbook.write(fileOut);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            return convertXlsxToHtml2(workbook);
+        } catch (ParserConfigurationException | TransformerException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Workbook getFromFile(String filepath) throws IOException {
@@ -80,15 +172,7 @@ public class XlsxParser {
         return -1;
     }
 
-    private static String toHtmlFromHssfWorkbook(List<EmptySlot> emptySlots, List<CompletedSlot> completedSlots) {
-        final String[] timesArray = {"8:00 - 9:30",
-                "9:45 - 11:20",
-                "11:30 - 13:05",
-                "13:25 - 15:00",
-                "15:10 - 16:45",
-                "16:55 - 18:30",
-                "18:45 - 20:00"};
-
+    private static String toHtmlFromHssfWorkbook(List<EmptySlot> emptySlots, List<CompletedSlot> completedSlots, String[] timesArray) {
         List<CompletedSlot> lessons = completedSlots.stream()
                 .filter(lesson -> lesson.getSchedule().getIsActual())
                 .sorted(Comparator.comparing(lesson -> lesson.getSlotId().getWeekDayNumber()))
@@ -103,6 +187,13 @@ public class XlsxParser {
         sheet.createRow(0).setHeight((short) 500);
         sheet.setColumnWidth(0, 5000);
 
+        CreationHelper helper = workbook.getCreationHelper();
+
+        for (int i = 1; i < 7; i++) {
+            sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString(String.valueOf(WeekDaysEnum.values()[i])));
+            setBordersOnCell(0, i, sheet);
+        }
+
         for (int i = 1; i < 15; i++) {
             Row row = sheet.createRow(i);
             sheet.setColumnWidth(i, 5000);
@@ -111,40 +202,6 @@ public class XlsxParser {
 
             for (int j = 1; j < 7; j++) {
                 setBordersOnCell(i, j, sheet);
-//                if (i % 2 == 0) {
-//                    sheet.addMergedRegion(new CellRangeAddress(
-//                            i - 1,
-//                            i,
-//                            j,
-//                            j
-//                    ));
-//                }
-            }
-        }
-
-        CreationHelper helper = workbook.getCreationHelper();
-
-        for (int i = 1; i < 7; i++) {
-            String currentWeekdayValue = String.valueOf(WeekDaysEnum.values()[i]);
-            sheet.getRow(0).createCell(i).setCellValue(helper.createRichTextString(currentWeekdayValue));
-            setBordersOnCell(0, i, sheet);
-
-            List<CompletedSlot> weekdayLessons = lessons.stream()
-                    .filter(lesson -> lesson.getSlotId().getWeekDayNumber().equals(currentWeekdayValue))
-                    .collect(Collectors.toList());
-
-            for (CompletedSlot slot : weekdayLessons) {
-                String timeGap = slot.getSlotId().getStartTime() + " - " + slot.getSlotId().getEndTime();
-                boolean isDemoninator = slot.getSlotId().isDenominator();
-                int rowTimeIndex = findTimeRowIndex(timeGap, timesArray);
-                rowTimeIndex = rowTimeIndex * 2 + 1;
-
-                if (isDemoninator) {
-                    ++rowTimeIndex;
-                }
-
-                sheet.createRow(rowTimeIndex).createCell(i).setCellValue("filled");
-                setBordersOnCell(rowTimeIndex, i, sheet);
             }
         }
 
@@ -162,6 +219,43 @@ public class XlsxParser {
                 if (counter < timesArray.length) {
                     sheet.getRow(i).getCell(0).setCellValue(helper.createRichTextString(timesArray[counter]));
                     ++counter;
+                }
+            }
+        }
+
+        for (int i = 1; i < 7; i++) {
+            String currentWeekdayValue = String.valueOf(WeekDaysEnum.values()[i]);
+
+            List<CompletedSlot> weekdayLessons = lessons.stream()
+                    .filter(lesson -> lesson.getSlotId().getWeekDayNumber().equals(currentWeekdayValue))
+                    .collect(Collectors.toList());
+
+            for (CompletedSlot slot : weekdayLessons) {
+                String timeGap = slot.getSlotId().getStartTime() + " - " + slot.getSlotId().getEndTime();
+                boolean isDemoninator = slot.getSlotId().isDenominator();
+                int rowTimeIndex = findTimeRowIndex(timeGap, timesArray);
+                rowTimeIndex = rowTimeIndex * 2 + 1;
+
+                int finalRowTimeIndex = rowTimeIndex;
+                int finalI = i;
+
+                if (isDemoninator) {
+                    ++rowTimeIndex;
+                }
+                sheet.getRow(rowTimeIndex).getCell(i).setCellValue(helper.createRichTextString(slot.getClassroom()));
+            }
+        }
+
+        for (int i = 1; i < 14; i += 2) {
+            for (int j = 1; j < 7; j++) {
+                if (sheet.getRow(i).getCell(j).getStringCellValue().equals("") &&
+                        (sheet.getRow(i + 1).getCell(j).getStringCellValue().equals(""))) {
+                    sheet.addMergedRegion(new CellRangeAddress(
+                            i,
+                            i + 1,
+                            j,
+                            j
+                    ));
                 }
             }
         }
