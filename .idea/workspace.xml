@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e16d940-b4bd-48bc-82d3-663e5d96604a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Chair_saspisanie.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java" afterDir="false" />
     </list>
@@ -100,7 +99,7 @@
       <workItem from="1683358004109" duration="3313000" />
       <workItem from="1683539805501" duration="3706000" />
       <workItem from="1683631053444" duration="5936000" />
-      <workItem from="1683718082200" duration="4423000" />
+      <workItem from="1683718082200" duration="6881000" />
     </task>
     <task id="LOCAL-00001" summary="initialCommit">
       <created>1681038264800</created>
@@ -263,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683635152346</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="bones for chair saspisanie">
+      <created>1683722944005</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1683722944005</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,30 +305,36 @@
     <MESSAGE value="test data" />
     <MESSAGE value="safe commit" />
     <MESSAGE value="filling step 1 finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="filling step 1 finished" />
+    <MESSAGE value="bones for chair saspisanie" />
+    <option name="LAST_COMMIT_MESSAGE" value="bones for chair saspisanie" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>514</line>
+          <line>540</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>508</line>
+          <line>534</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>475</line>
+          <line>501</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
-          <line>110</line>
-          <option name="timeStamp" value="20" />
+          <line>145</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/XlsxParser.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

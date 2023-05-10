@@ -70,12 +70,12 @@ public class XlsxParser {
         teachersIds.add(2);
         teachersIds.add(3);
 
-        html = HSSFSchemaForChair(teachersIds, timesArray);
+        html = HSSFSchemaForChair(teachersIds, timesArray, testSlots);
 
         System.out.println("Finish hiiiim!");
     }
 
-    private static String HSSFSchemaForChair(List<Integer> teachersIds, String[] timesArray) {
+    private static String HSSFSchemaForChair(List<Integer> teachersIds, String[] timesArray, List<CompletedSlot> lessons) {
         HSSFWorkbook workbook = new HSSFWorkbook();
 
         String safeSheetName = WorkbookUtil.createSafeSheetName(" ");
@@ -121,20 +121,44 @@ public class XlsxParser {
             sheet.addMergedRegion(new CellRangeAddress(i, i + timesArray.length * 2 - 1, 0, 0));
         }
 
-//        int counter = 0;
-//        for (int i = 1; i < 15; i++) {
-//            setBordersOnCell(i, 0, sheet);
-//            if (i % 2 == 0) {
-//                sheet.addMergedRegion(new CellRangeAddress(
-//                        i - 1,
-//                        i,
-//                        0,
-//                        0
-//                ));
-//            } else {
-//                if (counter < timesArray.length) {
-//                    sheet.getRow(i).getCell(0).setCellValue(helper.createRichTextString(timesArray[counter]));
-//                    ++counter;
+        for (int t = 0; t < teachersIds.size(); t++) {
+            int teacherId = teachersIds.get(t);
+            List<CompletedSlot> teacherLessons = lessons.stream()
+                    .filter(lesson -> Objects.equals(lesson.getTeacherId(), teacherId))
+                    .collect(Collectors.toList());
+
+            for (int i = 1; i < count; i += timesArray.length * 2) {
+                var weekDay = String.valueOf(WeekDaysEnum.values()[(i / timesArray.length) / 2 + 1]);
+
+                List<CompletedSlot> weekdayLessons = teacherLessons.stream()
+                        .filter(lesson -> lesson.getSlotId().getWeekDayNumber().equals(weekDay))
+                        .collect(Collectors.toList());
+
+                for (CompletedSlot slot : weekdayLessons) {
+                    String timeGap = slot.getSlotId().getStartTime() + " - " + slot.getSlotId().getEndTime();
+                    boolean isDemoninator = slot.getSlotId().isDenominator();
+                    int rowTimeIndex = findTimeRowIndex(timeGap, timesArray);
+                    rowTimeIndex = i + rowTimeIndex * 2;
+
+                    if (isDemoninator) {
+                        ++rowTimeIndex;
+                    }
+                    sheet.getRow(rowTimeIndex).createCell(t + 2).setCellValue(helper.createRichTextString(slot.getClassroom()));
+                    setBordersOnCell(t, i, sheet);
+                }
+            }
+        }
+
+//        for (int i = 1; i < 14; i += 2) {
+//            for (int j = 1; j < 7; j++) {
+//                if (sheet.getRow(i).getCell(j).getStringCellValue().equals("") &&
+//                        (sheet.getRow(i + 1).getCell(j).getStringCellValue().equals(""))) {
+//                    sheet.addMergedRegion(new CellRangeAddress(
+//                            i,
+//                            i + 1,
+//                            j,
+//                            j
+//                    ));
 //                }
 //            }
 //        }
