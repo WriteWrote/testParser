@@ -1,16 +1,12 @@
 package org.example;
 
-import org.apache.poi.examples.ss.html.ToHtml;
 import org.apache.poi.hssf.converter.ExcelToHtmlConverter;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.ss.util.WorkbookUtil;
-import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xwpf.usermodel.Document;
 import org.example.model.CompletedSlot;
 import org.example.model.EmptySlot;
 import org.example.model.Timetable;
